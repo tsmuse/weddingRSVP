@@ -3,21 +3,24 @@ from django.contrib import admin
 # Register your models here.
 from .models import RsvpResponse, Guest
 
+
 class GuestInLine(admin.TabularInline):
 	model = Guest
 	extra = 0
-	list_display = ('guest_name','guest_attending', 'guest_drink_pref')
+	fields = ('guest_name','guest_attending', 'guest_drink_pref')
 
-def pretty_rsvp_name(obj):
-	my_name = "RSVP for "
+
+def rsvp_attenting(obj):
+	attending = "Not Attending"
 	for guest in obj.guest_set.all():
-		my_name += guest.guest_name + ", "	
-	return my_name
+		if guest.guest_attending == True:
+			attending = "Attending"
+	return attending
 
 
 class RsvpResponseAdmin(admin.ModelAdmin):
 	inlines = [GuestInLine]
-	list_display = (pretty_rsvp_name,)
+	list_display = ("pretty_rsvp_name", rsvp_attenting, "response_date")
 	
 
 

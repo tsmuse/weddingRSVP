@@ -8,21 +8,31 @@ from django.utils import timezone
 class RsvpResponse(models.Model):
 	response_date = models.DateTimeField('responded on')
 
-	""" 
-	what I want to do here is derrive the name of the RSVP from all the child guest_name values
-	but I can't figure out if it's possible or not. Can prettify in views, so this is a placeholder.
-	"""
+	def pretty_rsvp_name(obj):
+		my_name = "RSVP for "
+		for guest in obj.guest_set.all():
+			my_name += guest.guest_name + ", "	
+		return my_name
+
 	def __str__(self):
-		return "RSVP " + str(self.id)
+		return self.pretty_rsvp_name()
+
 
 
 class Guest(models.Model):
 	rsvp_response = models.ForeignKey(RsvpResponse)
 	guest_name = models.CharField(max_length=200)
 	guest_attending = models.NullBooleanField()
-	# to get a rough count of beer drinkers vs wine drinkers
-	# True == Beer False == Wine
-	guest_drink_pref = models.BooleanField()
+	drink_choices = ((True, 'Beer'),(False,'Wine'))
+	guest_drink_pref = models.BooleanField(choices=drink_choices)
+
+
+	def pretty_drink_pref(obj):
+		pretty_drink = "Wine"
+		if obj.guest_drink_pref == True:
+			pretty_drink = "Beer"
+		return pretty_drink
+
 	def __str__(self):
 		return self.guest_name
 
