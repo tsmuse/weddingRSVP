@@ -11,10 +11,13 @@ class GuestInLine(admin.TabularInline):
 
 
 def rsvp_attenting(obj):
+	# need to add a "not responded" for None(null) case.
 	attending = "Not Attending"
 	for guest in obj.guest_set.all():
 		if guest.guest_attending == True:
 			attending = "Attending"
+		elif guest.guest_attending == None:
+			attending = "No response"
 	return attending
 
 
