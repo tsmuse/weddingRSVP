@@ -7,7 +7,7 @@ from django.test import TestCase
 from django.core.urlresolvers import reverse
 
 from .models import RsvpResponse, Guest
-from .admin import rsvp_attending
+from .admin import rsvp_attending, total_guest_count, total_beer_count, total_wine_count, total_nonalc_count
 
 
 def create_rsvp(guest_count, days):
@@ -122,6 +122,313 @@ class AdminViewTests(TestCase):
 		attending_test = rsvp_attending(rsvp)
 
 		self.assertEqual(attending_test == "Attending", True)
+
+	def test_total_guest_count_all_yes(self):
+		"""
+		Test that multiple RsvpResponses with all guests attending returns correct count
+		"""
+		rsvp1 = create_rsvp(5, 5)
+		rsvp2 = create_rsvp(3, 6)
+		rsvp3 = create_rsvp(1, 7)
+
+		for g in rsvp1.guest_set.all():
+			g.guest_attending = True
+			g.save()
+		for g in rsvp2.guest_set.all():
+			g.guest_attending = True
+			g.save()
+		for g in rsvp3.guest_set.all():
+			g.guest_attending = True
+			g.save()
+
+		total_count = total_guest_count()
+		# Remember that create_rsvp with 1 guest adds a +1
+		self.assertEqual(total_count == 10, True, "Total count = " + str(total_count))
+
+	def test_total_guest_count_some_no(self):
+		"""
+		Test that multiple RsvpResponses with some guests all attending and
+		some guests all not attending returns correct count
+		"""
+		rsvp1 = create_rsvp(5, 5)
+		rsvp2 = create_rsvp(3, 6)
+		rsvp3 = create_rsvp(1, 7)
+
+		for g in rsvp1.guest_set.all():
+			g.guest_attending = True
+			g.save()
+		for g in rsvp2.guest_set.all():
+			g.guest_attending = False
+			g.save()
+		for g in rsvp3.guest_set.all():
+			g.guest_attending = True
+			g.save()
+
+		total_count = total_guest_count()
+		# Remember that create_rsvp with 1 guest adds a +1
+		self.assertEqual(total_count == 7, True, "Total count = " + str(total_count))
+	def test_total_guest_count_some_no_some_no_response(self):
+		"""
+		Test that multiple RsvpResponses with some guest all attending and 
+		some guest all not attending and some guests not responded returns
+		the correct count
+		"""
+		rsvp1 = create_rsvp(5, 5)
+		rsvp2 = create_rsvp(3, 6)
+		rsvp3 = create_rsvp(1, 7)
+
+		for g in rsvp1.guest_set.all():
+			g.guest_attending = True
+			g.save()
+		for g in rsvp2.guest_set.all():
+			g.guest_attending = False
+			g.save()
+
+		total_count = total_guest_count()
+		# Remember that create_rsvp with 1 guest adds a +1
+		self.assertEqual(total_count == 5, True, "Total count = " + str(total_count))
+
+	def test_total_guest_count_some_no_mixed(self):
+		"""
+		Test that multiple RsvpResponses with some guests all attending and
+		some guests attending and not attending on the same RSVP returns the 
+		correct count
+		"""
+		rsvp1 = create_rsvp(5, 5)
+		rsvp2 = create_rsvp(3, 6)
+		rsvp3 = create_rsvp(1, 7)
+
+		for g in rsvp1.guest_set.all():
+			g.guest_attending = True
+			g.save()
+		for g in rsvp2.guest_set.all():
+			g.guest_attending = False
+			g.save()
+		actual_guest = rsvp2.guest_set.get(guest_name="Test guest 1")
+		actual_guest.guest_attending = True
+		actual_guest.save()
+		for g in rsvp3.guest_set.all():
+			g.guest_attending = True
+			g.save()
+
+		total_count = total_guest_count()
+		# Remember that create_rsvp with 1 guest adds a +1
+		self.assertEqual(total_count == 8, True, "Total count = " + str(total_count))
+
+	def test_total_guest_count_some_no_mixed_some_none(self):
+		"""
+		Test that multiple RsvpResponses with some guests all attending and
+		some guests attending and not attending on the same RSVP and some guests
+		not responded returns the correct count
+		"""
+		rsvp1 = create_rsvp(5, 5)
+		rsvp2 = create_rsvp(3, 6)
+		rsvp3 = create_rsvp(1, 7)
+
+		for g in rsvp1.guest_set.all():
+			g.guest_attending = True
+			g.save()
+		for g in rsvp2.guest_set.all():
+			g.guest_attending = False
+			g.save()
+		actual_guest = rsvp2.guest_set.get(guest_name="Test guest 1")
+		actual_guest.guest_attending = True
+		actual_guest.save()
+
+		total_count = total_guest_count()
+		# Remember that create_rsvp with 1 guest adds a +1
+		self.assertEqual(total_count == 6, True, "Total count = " + str(total_count))
+
+	def test_total_beer_count_no_beer(self):
+		"""
+		Test that multiple RsvpResponses with no guests drinking beer
+		returns correct count
+		"""
+		rsvp1 = create_rsvp(5, 5)
+		rsvp2 = create_rsvp(3, 6)
+		rsvp3 = create_rsvp(1, 7)
+
+		for g in rsvp1.guest_set.all():
+			g.guest_drink_pref = False
+			g.save()
+		for g in rsvp2.guest_set.all():
+			g.guest_drink_pref = False
+			g.save()
+		for g in rsvp3.guest_set.all():
+			g.guest_drink_pref = False
+			g.save()
+
+		total_count = total_beer_count()
+		
+		self.assertEqual(total_count == 0, True, "Total count = " + str(total_count))
+	def test_total_beer_count_all_beer(self):
+		"""
+		Test that multiple RsvpResponses with all guests drinking beer
+		returns correct count
+		"""
+		rsvp1 = create_rsvp(5, 5)
+		rsvp2 = create_rsvp(3, 6)
+		rsvp3 = create_rsvp(1, 7)
+
+		for g in rsvp1.guest_set.all():
+			g.guest_drink_pref = True
+			g.save()
+		for g in rsvp2.guest_set.all():
+			g.guest_drink_pref = True
+			g.save()
+		for g in rsvp3.guest_set.all():
+			g.guest_drink_pref = True
+			g.save()
+
+		total_count = total_beer_count()
+		# Remember that create_rsvp with 1 guest adds a +1
+		self.assertEqual(total_count == 10, True, "Total count = " + str(total_count))
+	def test_total_beer_count_some_beer(self):
+		"""
+		Test that multiple RsvpResponses with some guests drinking beer and 
+		some drinking wine returns correct count
+		"""
+		rsvp1 = create_rsvp(5, 5)
+		rsvp2 = create_rsvp(3, 6)
+		rsvp3 = create_rsvp(1, 7)
+
+		for g in rsvp1.guest_set.all():
+			g.guest_drink_pref = True
+			g.save()
+		for g in rsvp2.guest_set.all():
+			g.guest_drink_pref = False
+			g.save()
+		lone_beer_guest = rsvp2.guest_set.get(guest_name="Test guest 2")
+		lone_beer_guest.guest_drink_pref = True
+		lone_beer_guest.save()
+		for g in rsvp3.guest_set.all():
+			g.guest_drink_pref = True
+			g.save()
+
+		total_count = total_beer_count()
+		# Remember that create_rsvp with 1 guest adds a +1
+		self.assertEqual(total_count == 8, True, "Total count = " + str(total_count))
+	def test_total_beer_count_some_beer_some_noalc(self):
+		"""
+		Test that multiple RsvpResponses with some guests drinking beer and 
+		some drinking wine returns correct count
+		"""
+		rsvp1 = create_rsvp(5, 5)
+		rsvp2 = create_rsvp(3, 6)
+		rsvp3 = create_rsvp(1, 7)
+
+		for g in rsvp1.guest_set.all():
+			g.guest_drink_pref = True
+			g.save()
+		for g in rsvp2.guest_set.all():
+			g.guest_drink_pref = False
+			g.save()
+		lone_sober_guest = rsvp2.guest_set.get(guest_name="Test guest 2")
+		lone_sober_guest.guest_drink_pref = None
+		lone_sober_guest.save()
+		for g in rsvp3.guest_set.all():
+			g.guest_drink_pref = True
+			g.save()
+
+		total_count = total_beer_count()
+		# Remember that create_rsvp with 1 guest adds a +1
+		self.assertEqual(total_count == 7, True, "Total count = " + str(total_count))
+
+	def test_total_wine_count_no_beer(self):
+		"""
+		Test that multiple RsvpResponses with no guests drinking wine
+		returns correct count
+		"""
+		rsvp1 = create_rsvp(5, 5)
+		rsvp2 = create_rsvp(3, 6)
+		rsvp3 = create_rsvp(1, 7)
+
+		for g in rsvp1.guest_set.all():
+			g.guest_drink_pref = True
+			g.save()
+		for g in rsvp2.guest_set.all():
+			g.guest_drink_pref = True
+			g.save()
+		for g in rsvp3.guest_set.all():
+			g.guest_drink_pref = True
+			g.save()
+
+		total_count = total_wine_count()
+		
+		self.assertEqual(total_count == 0, True, "Total count = " + str(total_count))
+	def test_total_wine_count_all_wine(self):
+		"""
+		Test that multiple RsvpResponses with all guests drinking wine
+		returns correct count
+		"""
+		rsvp1 = create_rsvp(5, 5)
+		rsvp2 = create_rsvp(3, 6)
+		rsvp3 = create_rsvp(1, 7)
+
+		for g in rsvp1.guest_set.all():
+			g.guest_drink_pref = False
+			g.save()
+		for g in rsvp2.guest_set.all():
+			g.guest_drink_pref = False
+			g.save()
+		for g in rsvp3.guest_set.all():
+			g.guest_drink_pref = False
+			g.save()
+
+		total_count = total_wine_count()
+		# Remember that create_rsvp with 1 guest adds a +1
+		self.assertEqual(total_count == 10, True, "Total count = " + str(total_count))
+	def test_total_wine_count_some_wine(self):
+		"""
+		Test that multiple RsvpResponses with some guests drinking beer and 
+		some drinking wine returns correct count
+		"""
+		rsvp1 = create_rsvp(5, 5)
+		rsvp2 = create_rsvp(3, 6)
+		rsvp3 = create_rsvp(1, 7)
+
+		for g in rsvp1.guest_set.all():
+			g.guest_drink_pref = False
+			g.save()
+		for g in rsvp2.guest_set.all():
+			g.guest_drink_pref = True
+			g.save()
+		lone_wine_guest = rsvp2.guest_set.get(guest_name="Test guest 2")
+		lone_wine_guest.guest_drink_pref = False
+		lone_wine_guest.save()
+		for g in rsvp3.guest_set.all():
+			g.guest_drink_pref = False
+			g.save()
+
+		total_count = total_wine_count()
+		# Remember that create_rsvp with 1 guest adds a +1
+		self.assertEqual(total_count == 8, True, "Total count = " + str(total_count))
+	def test_total_wine_count_some_beer_some_noalc(self):
+		"""
+		Test that multiple RsvpResponses with some guests drinking beer and 
+		some drinking wine returns correct count
+		"""
+		rsvp1 = create_rsvp(5, 5)
+		rsvp2 = create_rsvp(3, 6)
+		rsvp3 = create_rsvp(1, 7)
+
+		for g in rsvp1.guest_set.all():
+			g.guest_drink_pref = False
+			g.save()
+		for g in rsvp2.guest_set.all():
+			g.guest_drink_pref = True
+			g.save()
+		lone_sober_guest = rsvp2.guest_set.get(guest_name="Test guest 2")
+		lone_sober_guest.guest_drink_pref = None
+		lone_sober_guest.save()
+		for g in rsvp3.guest_set.all():
+			g.guest_drink_pref = False
+			g.save()
+
+		total_count = total_wine_count()
+		# Remember that create_rsvp with 1 guest adds a +1
+		self.assertEqual(total_count == 7, True, "Total count = " + str(total_count))
+
 
 # Create your tests here.
 # You're not the boss of me, auto-generated comment line

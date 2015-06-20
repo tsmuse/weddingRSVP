@@ -24,6 +24,42 @@ def rsvp_attending(obj):
 		attending = "Attending"
 	return attending
 
+def total_guest_count():
+	total_count = 0
+	all_rsvps = RsvpResponse.objects.all()
+	for rsvp in all_rsvps:
+		this_count = len(rsvp.guest_set.filter(guest_attending=True))
+		total_count += this_count
+
+	return total_count
+
+def total_beer_count():
+	total_count = 0
+	all_rsvps = RsvpResponse.objects.all()
+	for rsvp in all_rsvps:
+		this_count = len(rsvp.guest_set.filter(guest_drink_pref=True))
+		total_count += this_count
+
+	return total_count
+
+def total_wine_count():
+	total_count = 0
+	all_rsvps = RsvpResponse.objects.all()
+	for rsvp in all_rsvps:
+		this_count = len(rsvp.guest_set.filter(guest_drink_pref=False))
+		total_count += this_count
+
+	return total_count
+
+def total_nonalc_count():
+	total_count = 0
+	all_rsvps = RsvpResponse.objects.all()
+	for rsvp in all_rsvps:
+		this_count = len(rsvp.guest_set.filter(guest_drink_pref=None))
+		total_count += this_count
+
+	return total_count
+
 
 class RsvpResponseAdmin(admin.ModelAdmin):
 	inlines = [GuestInLine]

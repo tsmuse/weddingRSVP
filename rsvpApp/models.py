@@ -25,8 +25,8 @@ class Guest(models.Model):
 	guest_name = models.CharField(max_length=200)
 	attending_choices = ((None, 'No response'), (False, 'Not Attending'), (True, "Attending"))
 	guest_attending = models.NullBooleanField(choices=attending_choices)
-	drink_choices = ((True, 'Beer'),(False,'Wine'))
-	guest_drink_pref = models.BooleanField(choices=drink_choices)
+	drink_choices = ((None, 'No alcohol'),(True, 'Beer'),(False,'Wine'))
+	guest_drink_pref = models.NullBooleanField(choices=drink_choices)
 
 	def __str__(self):
 		return self.guest_name
