@@ -1,14 +1,14 @@
 from django.contrib import admin
+from django.shortcuts import render
+from django.conf.urls import url
+from django.template.response import TemplateResponse
+
+
 
 # Register your models here.
 from .models import RsvpResponse, Guest
 
-
-class GuestInLine(admin.TabularInline):
-	model = Guest
-	extra = 0
-	fields = ('guest_name','guest_attending', 'guest_drink_pref')
-
+# Admin view helper functions
 
 def rsvp_attending(obj):
 	"""
@@ -60,10 +60,41 @@ def total_nonalc_count():
 
 	return total_count
 
+# actual admin view classes
+class GuestInLine(admin.TabularInline):
+	model = Guest
+	extra = 0
+	fields = ('guest_name','guest_attending', 'guest_drink_pref')
 
 class RsvpResponseAdmin(admin.ModelAdmin):
 	inlines = [GuestInLine]
 	list_display = ("pretty_rsvp_name", rsvp_attending, "response_date")
+
+	def get_urls(self):
+		urls = super(RsvpResponseAdmin, self).get_urls()
+		
+		my_urls = [
+			url(r'^dashboard/$', self.admin_site.admin_view(self.dashboard_view), name="dashboard"),
+		]
+	
+		return my_urls + urls
+
+	def dashboard_view(self, request):
+		total_guests = total_guest_count()
+		total_beer = total_beer_count()
+		total_wine = total_wine_count()
+		total_nonalc = total_nonalc_count()
+
+		context = dict(
+			self.admin_site.each_context(request),
+			total_guests=total_guests,
+			total_beer=total_beer,
+			total_wine=total_wine,
+			total_nonalc=total_nonalc,
+		)
+		return TemplateResponse(request, "admin/dashboard.html", context)
+
+	
 	
 
 

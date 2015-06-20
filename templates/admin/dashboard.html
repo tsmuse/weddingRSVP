@@ -1,0 +1,17 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<table>
+	<thead>
+		<td>Total Guests</td>
+		<td>Total Beer Drinkers</td>
+		<td>Total Wine Drinkers</td>
+		<td>Total Non-Drinkers</td>
+	</thead>
+	<tr>
+		<td align="center">{{ total_guests }}</td>
+		<td align="center">{{ total_beer }}</td>
+		<td align="center">{{ total_wine }}</td>
+		<td align="center">{{ total_nonalc }}</td>
+	</tr>
+</table>
+{% endblock %}
