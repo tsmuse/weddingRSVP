@@ -10,20 +10,24 @@ class GuestInLine(admin.TabularInline):
 	fields = ('guest_name','guest_attending', 'guest_drink_pref')
 
 
-def rsvp_attenting(obj):
-	# need to add a "not responded" for None(null) case.
+def rsvp_attending(obj):
+	"""
+	the user facing response form will not allow None values to be submitted
+	so the only time any guest_attending will == None is when they all do
+	"""
 	attending = "Not Attending"
-	for guest in obj.guest_set.all():
-		if guest.guest_attending == True:
-			attending = "Attending"
-		elif guest.guest_attending == None:
-			attending = "No response"
+	guest_list = obj.guest_set.filter(guest_attending=None)
+	if len(guest_list) > 0:
+		attending = "No response"
+	guest_list = obj.guest_set.filter(guest_attending=True)
+	if len(guest_list) > 0:
+		attending = "Attending"
 	return attending
 
 
 class RsvpResponseAdmin(admin.ModelAdmin):
 	inlines = [GuestInLine]
-	list_display = ("pretty_rsvp_name", rsvp_attenting, "response_date")
+	list_display = ("pretty_rsvp_name", rsvp_attending, "response_date")
 	
 
 
