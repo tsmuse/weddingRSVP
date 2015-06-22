@@ -1,0 +1,8 @@
+<p>
+RSVP HERE!
+</p>
+{% if error_message %}<p><strong>{{error_message}}</strong></p>{% endif %}
+<form action="rsvp_search/" method="get">
+	{{ form }}
+	<input type="submit" value="search" />
+</form>

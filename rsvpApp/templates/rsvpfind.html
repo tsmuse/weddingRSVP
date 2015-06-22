@@ -1,0 +1,9 @@
+
+<h1> Is this you?</h1>
+<h2>Guests on this RSVP</h2>
+{% for guest in rsvp.guest_set.all %}
+	<h3>{{guest}}</h3>
+{% endfor %}
+
+<a href="/rsvpApp/">Nooooooooope!!</a> | 
+<a href="/rsvpApp/{{rsvp.pk}}/">Yup!</a>
