@@ -33,22 +33,30 @@ def rsvp_respond(request, rsvp_id):
 		extra=0
 	)
 	if request.method == "POST":
+		
 		formset = RsvpInlineFormSet(request.POST, instance=rsvp)
 
 		if formset.is_valid():
+			# save the updated response date. I don't know how to do this yet w/o hitting the db twice
+			rsvp.response_date = timezone.now()
+			rsvp.save()
 			formset.save()
-			return HttpResponseRedirect(reverse('rsvpApp:results', args=(rsvp.id)))
+			return HttpResponseRedirect(reverse('rsvpApp:results', args=(rsvp.id,)))
 		else:
 			return render(request, 'respond.html', {'formset': formset, 'rsvpresponse': rsvp, 'error_message': formset.errors,})
 
 	else:
+		"""
+		holy shit, it took me 3 hours to figure out this cool fix to my problem of being able to call items in
+		the guest_set of the rsvp object along side their InlineFormSet counterparts. zip FTW!
+		"""
 		formset = RsvpInlineFormSet(instance=rsvp)
 		guests = rsvp.guest_set.all()
 		formset_and_guests = zip(formset,guests)
 		return render(request, 'respond.html', {'formset': formset, 'rsvpresponse': rsvp, 'formset_and_guests': formset_and_guests})
 
 
-
 class ResultsView(generic.DetailView):
-	pass
+	model = RsvpResponse
+	template_name = "results.html"
 
