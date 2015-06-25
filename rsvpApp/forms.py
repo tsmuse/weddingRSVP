@@ -4,7 +4,7 @@ from rsvpApp.models import RsvpResponse, Guest
 
 
 class IndexSearchForm(forms.Form):
-	search_field = forms.CharField(label="Enter one name from your address label", max_length=200)
+	search_field = forms.CharField(label="", max_length=200, widget=forms.TextInput(attrs={'class': 'searchbox'}))
 
 class RsvpForm(forms.ModelForm):
 	attending_choices = ((False, 'Not Attending'), (True, "Attending"))

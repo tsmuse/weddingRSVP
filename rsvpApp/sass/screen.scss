@@ -1,0 +1,325 @@
+@import "normalize";
+@import "compass";
+@import "susy";
+@import "breakpoint";
+
+
+//Mixins
+@mixin selectanimation($animation) {
+    -webkit-transition: $animation;
+    -moz-transition: $animation;
+    -ms-transition: $animation;
+    -o-transition: $animation;
+    transition: $animation;
+  }
+
+//Variables
+
+//colors 
+$coral: #ee543b;
+$darkblue: #002e53;
+$darkgreen: #017e5e;
+$lightgreen: #7bcbbf;
+$offwhite: #fafafa;
+$paleblue: #edf3f7;
+$silvergrey: #e6f5ff;
+
+//breakpoints
+$mediumViewports: 700px;
+$largeViewports: 1000px;
+
+//Functions
+@function -ts-color($rgbValue, $alpha:1){
+	@return rgba($rgbValue, $alpha);
+}
+
+
+
+$susy: (
+	columns: 12,
+	gutters: 1/4,
+	math:fluid,
+	output: float,
+	gutter-position: inside,
+	global-box-sizing: border-box,
+);
+@include border-box-sizing;
+
+/*
+ ***********************************
+ * base layout setup
+ ***********************************
+*/
+html,
+body {
+	margin:0;
+	padding:0;
+	height:100%;
+	color: -ts-color($darkblue);
+	font-family: "proxima-nova", sans-serif;
+}
+#wrapper {
+	@include container;
+	min-height:100%;
+	position:relative;
+
+	//BG photo
+	background: url(../imgs/bg3_small.jpg) no-repeat center center scroll;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+
+	@include breakpoint($mediumViewports){
+		background: url(../imgs/bg3_medium.jpg) no-repeat center center scroll;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	}
+	@include breakpoint($largeViewports){
+		background: url(../imgs/bg3_large.jpg) no-repeat center center scroll;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	}
+}
+header {
+	@include span(full no-gutters);
+	background-color:-ts-color($offwhite);
+	border-bottom: 1px solid -ts-color($darkblue, 0.2);
+	position:fixed;
+	z-index:999;
+	height:60px;
+	@include breakpoint($mediumViewports){
+		height:80px;
+	}
+
+}
+#content {
+	padding-top:75px;
+	padding-bottom:80px;   /* Height of the footer element */
+	background-color: -ts-color($paleblue, 0.94);
+	min-height:660px;
+	@include breakpoint($mediumViewports){
+		padding-top:95px;
+	}
+}
+footer {
+	@include span(full no-gutters);
+	min-height:80px;
+	position:absolute;
+	bottom:0;
+	left:0;
+	border-top: 1px solid -ts-color($darkblue, 0.2);
+	background-color: -ts-color($offwhite);
+	color: -ts-color($lightgreen);
+}
+.sectionHeader{
+	@include span(full);
+	height:80px;
+	overflow:hidden;
+	color: -ts-color($coral);
+	margin-bottom:1rem;;
+	background-image: url("../imgs/festivities02.svg");
+	background-size:cover;
+	background-repeat: no-repeat;
+
+	@include breakpoint($mediumViewports){
+		@include span(full);
+		height:80px;
+		overflow:hidden;
+		color: -ts-color($coral);
+		margin-bottom:1rem;
+		background-size:contain;
+		background-position:60%;
+	}
+	@include breakpoint($largeViewports){
+		background-position:80%;
+	}
+}
+.sectionHeader h2{
+	font-size:2.5rem;
+	width:span(full);
+	padding-left:span(5);
+	margin-top:2.3rem;
+
+	@include breakpoint($mediumViewports){
+		font-size: 3rem;
+		width:span(full);
+		padding-left:span(6);
+		margin-top:2.3rem;
+	}
+	@include breakpoint($largeViewports){
+		width:span(full);
+		padding-left:span(8);
+	}
+}
+/*
+ ***********************************
+ * Navigation 
+ ***********************************
+*/
+
+#logo{
+	width:3.6rem;
+	height:3.6rem;
+	@include breakpoint($mediumViewports){
+		width:4.3rem;
+		height:4.3rem;
+	}
+}
+nav{
+	@include span(full no-gutters);
+	text-align:center;
+	height:60px;
+	margin-top:-0.8rem;
+	@include breakpoint($mediumViewports){
+		height:80px;
+	}
+
+}
+nav > ul{
+	width:span(full no-gutters);
+	height:100%;
+	list-style:none;
+	margin-bottom: -16px;
+	display:inline-block;
+	padding:0;
+	vertical-align:middle;
+}
+nav > ul li{
+	display:none;
+	@include breakpoint($mediumViewports){
+		display:inline-block;
+		padding:0;
+		vertical-align:middle;
+		width:span(1.5);
+	}
+}
+nav > ul li a{
+	@include breakpoint($mediumViewports){
+		color: -ts-color($lightgreen);
+		text-decoration:none;
+		font-size: 1rem;
+		line-height: 1.15rem;
+		font-weight:400;
+		&:hover {
+			color: -ts-color($darkblue);
+			@include selectanimation(all 0.3s ease-in);
+		}
+	}
+}
+#logoBox{
+	display:inline-block;
+	width:4.75rem;
+	height:4.75rem;
+	overflow:hidden;
+	padding:0;
+	@include breakpoint($mediumViewports){
+		display:none;
+	}
+}
+#desktopLogoBox{
+	display:none;
+	@include breakpoint($mediumViewports){	
+		display:inline-block;
+		width:4.75rem;
+		height:4.75rem;
+		overflow:hidden;
+		padding:0;
+		margin-left: auto;
+		margin-right: auto;
+	}
+}
+.mobileMenu{
+	display:none;
+	width: span(full);
+	text-align: left;
+	background-color: -ts-color($offwhite,0.8);
+	border-bottom: 1px solid -ts-color($darkblue,0.45);
+}
+.mobileMenu ul{
+	list-style: none;
+	margin-left:2rem;
+	padding-top:10px;
+}
+.mobileMenu ul li a{
+	line-height: 1.8rem;
+	font-size: 1.5rem;
+	color: -ts-color($darkblue);
+}
+.opaque{
+	background-color: -ts-color($offwhite);
+}
+/*
+ ***********************************
+ * Footer styles 
+ ***********************************
+*/
+footer  > p{
+	@include span(full no-gutters);
+	font-size:0.7rem;
+	text-align:center;
+	margin-bottom:0.3rem;
+	margin-top:0.4rem;
+	padding-left:1rem;
+	padding-right:1rem;
+	&:last-of-type{
+		margin-top:0;
+	}
+	@include breakpoint($largeViewports){
+		@include span(10.5);
+		margin-top: 1.4rem;
+	}
+}
+/*
+ ***********************************
+ * RSVP search page  
+ ***********************************
+*/
+
+.searchBlock{
+	@include span(full);
+}
+
+.searchBlock p {
+	@include span(11);
+	margin-left:span(0.5);
+	margin-bottom:2rem;
+}
+
+.searchbox{
+	font-size:2rem;
+	height:2.6rem;
+	width:span(11);
+	margin-left:span(0.5);
+	padding-left:10px;
+	border: 1px solid -ts-color($darkblue,0.15);
+}
+.searchBlock > .error{
+	@include span(11);
+	margin-left: span(0.5);
+	font-size:1.1rem;
+	font-weight:600;
+	color: -ts-color($coral, 0.9);
+}
+.searchsubmit{
+	@include span(11);
+	margin-top:1rem;
+	margin-left: span(0.5);
+	height:3rem;
+	font-size:1.5rem;
+	font-weight:300;
+	color: -ts-color($silvergrey, 1);
+	background-color: -ts-color($darkblue,1);
+	border: none;
+	&:hover{
+		background-color: -ts-color($coral, 0.5);
+	}
+	&:active{
+		background-color: -ts-color($coral, 0.8);	
+	}
+
+}

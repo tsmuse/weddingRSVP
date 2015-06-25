@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- force mobile safari to use the width of the device as the width of the viewport and disable initial scale -->
+		<meta name="viewport" content="width=device-width; initial-scale=1.0"> 
+		<title>Tony + Sil 4 eva -- RSVP</title>
+		<link href="{% static 'rsvpApp/imgs/favicon.png' %}" type="image/png" rel="icon" />
+		<link href="{% static 'rsvpApp/stylesheets/screen.css' %}" media="screen" rel="stylesheet" type="text/css" />
+		<!-- type kit -->
+		<script src="//use.typekit.net/plg8nkr.js"></script>
+		<script>try{Typekit.load();}catch(e){}</script>
+	</head>
+	<body>
+		<div id="wrapper">
+			
+				<header>
+					<nav>
+						<ul>
+							<li><a href="http://www.tonyandsilvia.com#festivities">festivities</a></li>
+							<li><a href="http://www.tonyandsilvia.com#seattle">visiting<br/> seattle</a></li>
+							<li id="logoBox"><a href="#"><img id="logo" src="{% static 'rsvpApp/imgs/logo.svg' %}"></a></li>
+							<li id="desktopLogoBox"><img id="logo" src="{% static 'rsvpApp/imgs/logo.svg' %}"></li>
+							<li><a href="http://www.tonyandsilvia.com#registry">registry</a></li>
+							<li><a href="http://www.tonyandsilvia.com#photos">photos</a></li>
+						</ul>
+						<div id="mobileMenu" class="mobileMenu">
+							<ul>
+								<li><a href="http://www.tonyandsilvia.com#festivities">festivities</a></li>
+								<li><a href="http://www.tonyandsilvia.com#seattle">visiting seattle</a></li>
+								<li><a href="http://www.tonyandsilvia.com#registry">registry</a></li>
+								<li><a href="http://www.tonyandsilvia.com#photos">photos</a></li>
+							</ul>
+						</div>
+					</nav>
+				</header>
+			
+			<div id="content"> 
+				{% block content%} something went wrong {% endblock %}
+			</div>
+			
+			<footer>
+				<p>All content &copy;2015 Tony Santos &amp; Silvia Amtmann. Like the site and want to copy it? The code is on <a href="https://github.com/tsmuse/weddingRSVP">github</a></p>
+				<p>More shenanigans from <a href="http://www.notjustprettypictures.com">Not Just Pretty Pictures</a></p>
+			</footer>
+			
+		</div>
+		<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+		<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+		<script src="{% static 'rsvpApp/js/majiks.js' %}"></script>
+	</body>
+</html>

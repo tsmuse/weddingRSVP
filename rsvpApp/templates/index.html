@@ -1,8 +1,19 @@
-<p>
-RSVP HERE!
-</p>
-{% if error_message %}<p><strong>{{error_message}}</strong></p>{% endif %}
-<form action="rsvp_search/" method="get">
-	{{ form }}
-	<input type="submit" value="search" />
-</form>
+{% extends "base.html" %}
+
+{% block content %}
+<div class="sectionHeader">
+	<h2>RSVP</h2>
+</div>
+<div class="searchBlock">
+	<p>
+		Thanks for saving a stamp (and an envelope) and RSVPing online. He's how this works. Enter one of the names from your invitation (e.g. Tony Santos or Silvia Amtmann) and hit the "find me" button. It's pretty self explainitory from there. It doesn't matter which name you enter but it has to be the full name as it's written on the envelope.
+	</p>
+	{% if error_message %}<div class="error">{{error_message}}</div>{% endif %}
+	<div class="searchForm">
+		<form action="rsvp_search/" method="get">
+			{{ form }}<br/>
+			<input class="searchsubmit" type="submit" value="Find me!" />
+		</form>
+	</div>
+</div>
+{% endblock %}
