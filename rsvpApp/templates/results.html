@@ -1,23 +1,30 @@
-<h1>YOU DID IT!!!!</h1>
+{% extends "base.html" %}
 
-{% for guest in rsvpresponse.guest_set.all %}
-		<h2>{{guest.guest_name}}</h2>
-		<p>
-			{% if guest.guest_attending %}
-				wouldn't miss it!
-			{% else %}
-				there in spirit
-			{% endif %}
-		</p>
-		<p>
-			{% if guest.guest_drink_pref == True %}
-				Beer
-			{% elif guest.guest_drink_pref == None %}
-				Non-alcoholic
-			{% else %}
-				Wine
-			{% endif %}	
+{% block content %}
+	<div class="sectionHeader">
+		<h2>YOU DID IT!!!!</h2>
+	</div>
+	<div class="respondFormContainer">
+		{% for guest in rsvpresponse.guest_set.all %}
+		<div class="guestResult">
+			<h2>{{guest.guest_name}}</h2>
+			<p> 
+				{% if guest.guest_attending %}
+					 wouldn't miss it!
+				{% else %}
+					will be there in spirit
+				{% endif %}
+				<br/>Their drink preference is: 
+				{% if guest.guest_drink_pref == True %}
+					Beer
+				{% elif guest.guest_drink_pref == None %}
+					Non-alcoholic
+				{% else %}
+					Wine
+				{% endif %}	
 			</p>
-	{% endfor %}
-</table>
-<h3>Thanks for playing!</h3>
+		</div>
+		{% endfor %}
+</div>
+<a class="buttonLink resultsButton" href="http://www.tonyandsilvia.com">back to tonyandsilvia.com</a>
+{% endblock %}

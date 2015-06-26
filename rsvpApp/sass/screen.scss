@@ -2,6 +2,7 @@
 @import "compass";
 @import "susy";
 @import "breakpoint";
+@import "compass/layout/sticky-footer";
 
 
 //Mixins
@@ -43,7 +44,12 @@ $susy: (
 	gutter-position: inside,
 	global-box-sizing: border-box,
 );
+
+//susy's border-box sizing mix-in
 @include border-box-sizing;
+
+//compass sticky footer mixin
+@include sticky-footer(80px, "#wrapper", "#push", "#footer");
 
 /*
  ***********************************
@@ -58,42 +64,11 @@ body {
 	color: -ts-color($darkblue);
 	font-family: "proxima-nova", sans-serif;
 }
+
 #wrapper {
 	@include container;
 	min-height:100%;
-	position:relative;
-
-	//BG photo
-	background: url(../imgs/bg3_small.jpg) no-repeat center center scroll;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
-
-	@include breakpoint($mediumViewports){
-		background: url(../imgs/bg3_medium.jpg) no-repeat center center scroll;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
-	}
-	@include breakpoint($largeViewports){
-		background: url(../imgs/bg3_large.jpg) no-repeat center center scroll;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
-	}
-}
-#bgOverlay{
-	height:100%;
-	width:100%;
-	position:fixed;
-	top:0;
-	left:0;
 	background-color: -ts-color($paleblue, 0.94);
-	z-index:0;
-	
 }
 header {
 	@include span(full no-gutters);
@@ -110,19 +85,14 @@ header {
 #content {
 	padding-top:75px;
 	padding-bottom:80px;   /* Height of the footer element */
-	position: relative;
-	z-index:100;
-	min-height:660px;
+	//min-height:660px;
 	@include breakpoint($mediumViewports){
 		padding-top:95px;
 	}
 }
 footer {
 	@include span(full no-gutters);
-	min-height:80px;
-	position:absolute;
-	bottom:0;
-	left:0;
+	height:80px;
 	border-top: 1px solid -ts-color($darkblue, 0.2);
 	background-color: -ts-color($offwhite);
 	color: -ts-color($lightgreen);
@@ -294,6 +264,7 @@ footer  > p{
 
 .searchBlock{
 	@include span(full);
+	margin-bottom:1rem;
 	@include breakpoint($largeViewports){
 		@include span(10);
 		margin-left: span(1);
@@ -417,7 +388,7 @@ footer  > p{
 	display:inline-block;
 	width:span(11);
 	height:3rem;
-	padding-right:1rem;
+	padding-left:1rem;
 	padding-right:1rem;
 	padding-top:0.5rem;
 	padding-bottom:0.5rem;
@@ -426,7 +397,7 @@ footer  > p{
 	background-color: -ts-color($darkblue,1);
 	text-align:center;
 	text-decoration:none;
-	font-size:1.5rem;
+	font-size:1.3rem;
 	font-weight:300;
 	&:hover{
 		background-color: -ts-color($coral, 0.5);
@@ -450,11 +421,13 @@ footer  > p{
 */
 .respondFormContainer{
 		@include span(full no-gutters);
+		margin-bottom: 1rem;
+		padding-left:1rem;
 		padding-right:1rem;
 }
 .guestResponse{
 	@include span(full no-gutters);
-	padding-left:span(1);
+	padding-left:span(2);
 	@include breakpoint($mediumViewports){
 		@include span(9);
 		padding-left:span(3);
@@ -488,5 +461,46 @@ footer  > p{
 	height:40px;
 	@include breakpoint($largeViewports){
 		@include span(full);
+	}
+}
+
+/*
+ ***********************************
+ * RSVP results page
+ ***********************************
+*/
+.guestResult{
+	@include span(full no-gutters);
+		padding-left:span(1);
+		padding-right:span(1);
+	@include breakpoint($mediumViewports){
+		@include span(6);
+		margin-left: span(3);
+	}
+	@include breakpoint($largeViewports){
+		@include span(3);
+		margin-left:1rem;
+			&:nth-of-type(odd){
+			margin-left: span(3);
+		}
+	}
+}
+.guestResult h2{
+	font-size:2.3rem;
+	margin-bottom:0rem;
+	font-weight:200;
+}
+.guestResult p{
+	margin-bottom:5px;
+	margin-top:5px;
+}
+.resultsButton{
+	margin-left:1rem;
+	@include breakpoint($mediumViewports){
+		margin-left: span(2);
+
+	}
+	@include breakpoint($largeViewports){
+		margin-left: span(4);
 	}
 }
