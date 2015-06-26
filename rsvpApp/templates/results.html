@@ -1,31 +1,23 @@
 <h1>YOU DID IT!!!!</h1>
-<table border=1>
-	<thead>
-		<td>Guest</td>
-		<td>Attending?</td>
-		<td>Prefered Drink</td>
-	</thead>
-	{% for guest in rsvpresponse.guest_set.all %}
-		<tr>
-			<td>{{guest.guest_name}}</td>
-			<td>
-				{% if guest.guest_attending %}
-					wouldn't miss it!
-				{% else %}
-					there in spirit
-				{% endif %}
-			</td>
-			<td>
-				{% if guest.guest_drink_pref == True %}
-					Beer
-				{% elif guest.guest_drink_pref == None %}
-					Non-alcoholic
-				{% else %}
-					Wine
-				{% endif %}
-							
-			</td>
-		</tr>
+
+{% for guest in rsvpresponse.guest_set.all %}
+		<h2>{{guest.guest_name}}</h2>
+		<p>
+			{% if guest.guest_attending %}
+				wouldn't miss it!
+			{% else %}
+				there in spirit
+			{% endif %}
+		</p>
+		<p>
+			{% if guest.guest_drink_pref == True %}
+				Beer
+			{% elif guest.guest_drink_pref == None %}
+				Non-alcoholic
+			{% else %}
+				Wine
+			{% endif %}	
+			</p>
 	{% endfor %}
 </table>
 <h3>Thanks for playing!</h3>

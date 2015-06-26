@@ -1,9 +1,19 @@
+{% extends "base.html" %}
 
-<h1> Is this you?</h1>
-<h2>Guests on this RSVP</h2>
-{% for guest in rsvp.guest_set.all %}
-	<h3>{{guest}}</h3>
-{% endfor %}
-
-<a href="/rsvpApp/">Nooooooooope!!</a> | 
-<a href="/rsvpApp/{{rsvp.pk}}/">Yup!</a>
+{% block content %}
+<div class="searchResult">
+	<div class="sectionHeader">
+		<h2> Is this you?</h2>
+	</div>
+	<h3>RSVP for</h3>
+	<ul>
+	{% for guest in rsvp.guest_set.all %}
+		<li>{{guest}}</li>
+	{% endfor %}
+	</ul>
+	<div id="buttonContainer">
+		<a class="buttonLink" href="/rsvpApp/">No it's not</a>  
+		<a class="buttonLink" href="/rsvpApp/{{rsvp.pk}}/">Yes, That's me </a>
+	</div>
+</div>
+{% endblock %}

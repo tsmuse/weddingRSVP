@@ -85,6 +85,16 @@ body {
 	background-size: cover;
 	}
 }
+#bgOverlay{
+	height:100%;
+	width:100%;
+	position:fixed;
+	top:0;
+	left:0;
+	background-color: -ts-color($paleblue, 0.94);
+	z-index:0;
+	
+}
 header {
 	@include span(full no-gutters);
 	background-color:-ts-color($offwhite);
@@ -100,7 +110,8 @@ header {
 #content {
 	padding-top:75px;
 	padding-bottom:80px;   /* Height of the footer element */
-	background-color: -ts-color($paleblue, 0.94);
+	position: relative;
+	z-index:100;
 	min-height:660px;
 	@include breakpoint($mediumViewports){
 		padding-top:95px;
@@ -141,6 +152,7 @@ footer {
 }
 .sectionHeader h2{
 	font-size:2.5rem;
+	font-weight:200;
 	width:span(full);
 	padding-left:span(5);
 	margin-top:2.3rem;
@@ -148,12 +160,12 @@ footer {
 	@include breakpoint($mediumViewports){
 		font-size: 3rem;
 		width:span(full);
-		padding-left:span(6);
-		margin-top:2.3rem;
+		padding-left:span(5.5);
+		margin-top:1.8rem;
 	}
 	@include breakpoint($largeViewports){
 		width:span(full);
-		padding-left:span(8);
+		padding-left:span(8.5);
 	}
 }
 /*
@@ -282,12 +294,24 @@ footer  > p{
 
 .searchBlock{
 	@include span(full);
+	@include breakpoint($largeViewports){
+		@include span(10);
+		margin-left: span(1);
+	}
 }
 
 .searchBlock p {
 	@include span(11);
 	margin-left:span(0.5);
 	margin-bottom:2rem;
+	@include breakpoint($mediumViewports){
+		@include span(9);
+		margin-left:span(1);
+	}
+	@include breakpoint($largeViewports){
+		@include span(6 of 10);
+		margin-left:span(2 of 10);
+	}
 }
 
 .searchbox{
@@ -297,6 +321,11 @@ footer  > p{
 	margin-left:span(0.5);
 	padding-left:10px;
 	border: 1px solid -ts-color($darkblue,0.15);
+	@include breakpoint($mediumViewports){
+		width:span(8);
+		margin-left: span(2);
+
+	}
 }
 .searchBlock > .error{
 	@include span(11);
@@ -304,6 +333,11 @@ footer  > p{
 	font-size:1.1rem;
 	font-weight:600;
 	color: -ts-color($coral, 0.9);
+	@include breakpoint($mediumViewports){
+		width:span(8);
+		margin-left: span(2);
+
+	}
 }
 .searchsubmit{
 	@include span(11);
@@ -321,5 +355,138 @@ footer  > p{
 	&:active{
 		background-color: -ts-color($coral, 0.8);	
 	}
+	@include breakpoint($mediumViewports){
+		width:span(8);
+		margin-left: span(2);
 
+	}
+	@include breakpoint($largeViewports){
+		@include span(4 of 10);
+		margin-left: span(3 of 10);
+	}
+
+}
+/*
+ ***********************************
+ * RSVP lookup results page
+ ***********************************
+*/
+.searchResult{
+	@include span(full no-gutters);
+	padding-left:1rem;
+	padding-right:1rem;
+
+}
+
+.searchResult h3{
+	font-size:1.5rem;
+	margin-bottom:-0.5rem;
+	margin-left:span(1);
+	@include breakpoint($mediumViewports){
+		margin-left: span(2);
+	}
+	@include breakpoint($largeViewports){
+		margin-left: span(3);
+	}
+}
+.searchResult ul{
+	@include span(full no-gutters);
+	margin-left:span(1);
+	padding-left:1rem;
+	list-style:none;
+	@include breakpoint($mediumViewports){
+		margin-left: span(2);
+	}
+	@include breakpoint($largeViewports){
+		margin-left: span(3);
+	}
+}
+.searchResult ul li{
+	font-size:1.2rem;
+}
+#buttonContainer{
+	margin-left:span(0.5);
+	@include breakpoint($mediumViewports){
+		margin-left: span(2);
+	}
+	@include breakpoint($largeViewports){
+		margin-left:span(3);
+	}
+}
+.buttonLink{
+	display:inline-block;
+	width:span(11);
+	height:3rem;
+	padding-right:1rem;
+	padding-right:1rem;
+	padding-top:0.5rem;
+	padding-bottom:0.5rem;
+	margin-bottom:1rem;
+	color: -ts-color($silvergrey, 1);
+	background-color: -ts-color($darkblue,1);
+	text-align:center;
+	text-decoration:none;
+	font-size:1.5rem;
+	font-weight:300;
+	&:hover{
+		background-color: -ts-color($coral, 0.5);
+	}
+	&:active{
+		background-color: -ts-color($coral, 0.8);	
+	}
+	@include breakpoint($mediumViewports){
+		width:span(8);
+	}
+	@include breakpoint($largeViewports){
+		@include span(4);
+		margin-right: 1rem;
+
+	}
+}
+/*
+ ***********************************
+ * RSVP response form
+ ***********************************
+*/
+.respondFormContainer{
+		@include span(full no-gutters);
+		padding-right:1rem;
+}
+.guestResponse{
+	@include span(full no-gutters);
+	padding-left:span(1);
+	@include breakpoint($mediumViewports){
+		@include span(9);
+		padding-left:span(3);
+	}
+	@include breakpoint($largeViewports){
+		@include span(4);
+		&:nth-of-type(odd){
+			@include span(6);
+			padding-left:span(2);
+		}
+
+	}
+}
+.guestResponse > .drinkLabel{
+	@include breakpoint($largeViewports){
+		margin-top:3.5rem;
+	}
+}
+.guestResponse h2{
+	font-size:2.3rem;
+	margin-bottom:0rem;
+	font-weight:200;
+}
+.guestResponse p{
+	margin-bottom:5px;
+	margin-top:5px;
+}
+.guestResponse select{
+	width:span(8);
+	font-size:1.2rem;
+	height:40px;
+	@include breakpoint($largeViewports){
+		@include span(full);
+	}
 }

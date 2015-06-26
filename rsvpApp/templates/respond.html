@@ -1,24 +1,23 @@
 
-<form action="{% url 'rsvpApp:respond' rsvpresponse.id %}" method="post">
-{% csrf_token %}
-{{ formset.management_form}}
-{% for form, guest in formset_and_guests %}
-	{{form.id}}
-	{% if error_message %}<p><strong>{{error_message}}</strong></p>{% endif %}	
-	<table border=1>
-		<thead>
-			<td>Guest</td>
-			<td>Attending?</td>
-			<td>prefers to drink?</td>
-		</thead>
-		<tr>
-			<td>{{guest.guest_name}}</td>
-			<td>{{form.guest_attending}}</td>
-			<td>{{form.guest_drink_pref}}</td>
-		</tr>
-	</table>
+{% extends "base.html" %}
 
-{% endfor %} 
+{% block content %}
+<div class="respondFormContainer">
+	<form action="{% url 'rsvpApp:respond' rsvpresponse.id %}" method="post">
+	{% csrf_token %}
+	{{ formset.management_form}}
+	{% for form, guest in formset_and_guests %}
+		{{form.id}}
+		{% if error_message %}<div class="error">{{error_message}}</div>{% endif %}	
+			<div class="guestResponse">
+				<h2>{{guest.guest_name}}</h2>
+				<p>{{form.guest_attending}}</p>
+				<p class="drinkLabel">drink preference</p>
+				<p>{{form.guest_drink_pref}}</p>
+			</div>
+	{% endfor %} 
 
-<input type="submit" value="RSVP!!!!"/>
-</form>
+	<input class="searchsubmit" type="submit" value="RSVP!!!!"/>
+	</form>
+</div>
+{% endblock %}
