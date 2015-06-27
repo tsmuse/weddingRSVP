@@ -251,10 +251,6 @@ footer  > p{
 	&:last-of-type{
 		margin-top:0;
 	}
-	@include breakpoint($largeViewports){
-		@include span(10.5);
-		margin-top: 1.4rem;
-	}
 }
 /*
  ***********************************
@@ -280,8 +276,8 @@ footer  > p{
 		margin-left:span(1);
 	}
 	@include breakpoint($largeViewports){
-		@include span(6 of 10);
-		margin-left:span(2 of 10);
+		@include span(4 of 10);
+		margin-left:span(3 of 10);
 	}
 }
 
@@ -295,7 +291,10 @@ footer  > p{
 	@include breakpoint($mediumViewports){
 		width:span(8);
 		margin-left: span(2);
-
+	}
+	@include breakpoint($largeViewports){
+		@include span(4 of 10);
+		margin-left: span(3 of 10);
 	}
 }
 .searchBlock > .error{
@@ -307,8 +306,12 @@ footer  > p{
 	@include breakpoint($mediumViewports){
 		width:span(8);
 		margin-left: span(2);
-
 	}
+	@include breakpoint($largeViewports){
+		@include span(4 of 10);
+		margin-left: span(3 of 10);
+	}
+
 }
 .searchsubmit{
 	@include span(11);
@@ -374,6 +377,9 @@ footer  > p{
 }
 .searchResult ul li{
 	font-size:1.2rem;
+	&:last-of-type{
+		margin-bottom: 2rem;
+	}
 }
 #buttonContainer{
 	margin-left:span(0.5);
@@ -413,6 +419,9 @@ footer  > p{
 		margin-right: 1rem;
 
 	}
+}
+.secondaryButton{
+	background-color: -ts-color($lightgreen, 1.0);
 }
 /*
  ***********************************
@@ -463,6 +472,13 @@ footer  > p{
 		@include span(full);
 	}
 }
+.respondFormContainer  .searchsubmit{
+	@include breakpoint($largeViewports){
+		@include span(3 of 10);
+		margin-left: span(3.5 of 10);
+	}
+
+}
 
 /*
  ***********************************
@@ -481,7 +497,7 @@ footer  > p{
 		@include span(3);
 		margin-left:1rem;
 			&:nth-of-type(odd){
-			margin-left: span(3);
+			margin-left: span(4);
 		}
 	}
 }
@@ -501,6 +517,9 @@ footer  > p{
 
 	}
 	@include breakpoint($largeViewports){
-		margin-left: span(4);
+		@include span(3);
+		margin-left: span(5);
+		margin-top: 1rem;
+
 	}
 }
