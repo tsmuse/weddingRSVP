@@ -63,7 +63,7 @@ def total_nonalc_count():
 # actual admin view classes
 class GuestInLine(admin.TabularInline):
 	model = Guest
-	extra = 0
+	extra = 2
 	fields = ('guest_name','guest_attending', 'guest_drink_pref')
 
 class RsvpResponseAdmin(admin.ModelAdmin):
