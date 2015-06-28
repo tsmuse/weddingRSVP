@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from rsvpApp import views
 
 urlpatterns = [
+	url(r'^$', views.IndexView.as_view()),
 	url(r'^rsvpApp/', include('rsvpApp.urls', namespace="rsvpApp")),
     url(r'^admin/', include(admin.site.urls)),
 ]

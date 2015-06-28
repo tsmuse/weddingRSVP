@@ -10,7 +10,7 @@
 	</p>
 	{% if error_message %}<div class="error">{{error_message}}</div>{% endif %}
 	<div class="searchForm">
-		<form action="rsvp_search/" method="get">
+		<form action="{% url 'rsvpApp:search' %}" method="get">
 			{{ form }}<br/>
 			<input class="searchsubmit" type="submit" value="Find me!" />
 		</form>
