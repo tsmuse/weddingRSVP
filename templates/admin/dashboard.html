@@ -1,17 +1,19 @@
 {% extends "admin/base_site.html" %}
 {% block content %}
+<!-- I'm being terribly lazy and just doing inline styles here, I admit my sins and ask for forgivness -->
 <table>
 	<thead>
-		<td>Total Guests</td>
-		<td>Total Beer Drinkers</td>
-		<td>Total Wine Drinkers</td>
-		<td>Total Non-Drinkers</td>
+		<td style="width:200px;font-size:20px; line-height:30px;text-align:center;">Total Guests</td>
+		<td style="width:200px;font-size:20px; line-height:30px;text-align:center;">Total Beer Drinkers</td>
+		<td style="width:200px;font-size:20px; line-height:30px;text-align:center;">Total Wine Drinkers</td>
+		<td style="width:200px;font-size:20px; line-height:30px;text-align:center;">Total Non-Drinkers</td>
 	</thead>
 	<tr>
-		<td align="center">{{ total_guests }}</td>
-		<td align="center">{{ total_beer }}</td>
-		<td align="center">{{ total_wine }}</td>
-		<td align="center">{{ total_nonalc }}</td>
+		
+		<td style="font-size:36px; line-height:42px; text-align:center;"><a href="/admin/rsvpApp/rsvpresponse">{{ total_guests }}</a></td>
+		<td style="font-size:36px; line-height:42px; text-align:center;">{{ total_beer }}</td>
+		<td style="font-size:36px; line-height:42px; text-align:center;">{{ total_wine }}</td>
+		<td style="font-size:36px; line-height:42px; text-align:center;">{{ total_nonalc }}</td>
 	</tr>
 </table>
 {% endblock %}
