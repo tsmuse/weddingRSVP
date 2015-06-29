@@ -494,10 +494,10 @@ footer  > p{
 		margin-left: span(3);
 	}
 	@include breakpoint($largeViewports){
-		@include span(3);
-		margin-left:1rem;
+		@include span(4);
+		margin-left:0rem;
 			&:nth-of-type(odd){
-			margin-left: span(4);
+			margin-left: span(3);
 		}
 	}
 }
@@ -517,8 +517,8 @@ footer  > p{
 
 	}
 	@include breakpoint($largeViewports){
-		@include span(3);
-		margin-left: span(5);
+		@include span(3 of 10);
+		margin-left: span(3.5 of 10);
 		margin-top: 1rem;
 
 	}
