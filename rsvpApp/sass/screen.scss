@@ -90,12 +90,16 @@ header {
 		padding-top:95px;
 	}
 }
-#footer {
-	@include span(full no-gutters);
-	height:80px;
-	border-top: 1px solid -ts-color($darkblue, 0.2);
-	background-color: -ts-color($offwhite);
-	color: -ts-color($lightgreen);
+footer {
+	display:none;
+	@include breakpoint($mediumViewports){
+		@include span(full no-gutters);
+		height:80px;
+		border-top: 1px solid -ts-color($darkblue, 0.2);
+		background-color: -ts-color($offwhite);
+		color: -ts-color($lightgreen);	
+	}
+	
 }
 .sectionHeader{
 	@include span(full);
@@ -240,7 +244,7 @@ nav > ul li a{
  * Footer styles 
  ***********************************
 */
-#footer  > p{
+footer  > p{
 	@include span(full no-gutters);
 	font-size:0.7rem;
 	text-align:center;
